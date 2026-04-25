@@ -10,7 +10,7 @@ class TaskStorage:
         
         if os.path.exists(self.tasks_file):
             with open(self.tasks_file, "r") as file:
-                self.tasks_file = json.load(file)
+                tasks = json.load(file)
         
         if not self.tasks_file:
             print("No saved data found. Starting new file.")
