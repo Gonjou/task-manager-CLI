@@ -2,6 +2,7 @@
   {
     "title": "hello",
     "description": "a greeting",
-    "due_date": "1990"
+    "due_date": "1990",
+    "completed": true
   }
 ]
