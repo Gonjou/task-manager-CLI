@@ -25,15 +25,16 @@ class TaskManager:
         task = {"title": title, "description": description, "due_date": due_date, "completed": False}
         tasks.append(task)
 
-    def list_tasks(self, tasks): # format this into a table
-        for index, task in enumerate(tasks, start=1):
-            return f"{index}. {task['title']} - Due: {task['due_date']} - {'Completed' if task['completed'] else 'Incomplete'}"
+    def list_tasks(self, tasks):
+        return "\n".join(f"{index}. {task['title']} - Due: {task['due_date']} - {'Completed' if task['completed'] else 'Incomplete'}"
+        for index, task in enumerate(tasks, start=1))
 
     def delete_task(self, tasks, index):
         tasks.pop(index - 1)
 
     def search_task(self, tasks, index):
-        print(tasks[index - 1])
+        found_task = tasks[index - 1]
+        print(f"{found_task['title']} - {found_task['description']} - {found_task['due_date']} - {found_task['completed']}")
 
     def mark_as_completed(self, tasks, index):
         tasks[index - 1]["completed"] = True
