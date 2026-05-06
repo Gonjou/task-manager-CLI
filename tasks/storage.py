@@ -13,7 +13,7 @@ class TaskManager:
                 tasks = json.load(file)
         
         if not self.tasks_file:
-            print("No saved data found. Starting new file.")
+            return "No saved data found. Starting new file."
 
         return tasks
 
@@ -27,7 +27,7 @@ class TaskManager:
 
     def list_tasks(self, tasks): # format this into a table
         for index, task in enumerate(tasks, start=1):
-            print(f"{index}. {task['title']} - Due: {task['due_date']} - {'Completed' if task['completed'] else 'Incomplete'}")
+            return f"{index}. {task['title']} - Due: {task['due_date']} - {'Completed' if task['completed'] else 'Incomplete'}"
 
     def delete_task(self, tasks, index):
         tasks.pop(index - 1)
@@ -46,12 +46,7 @@ class TaskManager:
             task["description"] = description
 
 
-obj = TaskManager()
-obj.load_tasks()
-tasks = []
-obj.add_task(tasks, "hello", "a greeting", "1990")
-obj.mark_as_completed(tasks, 1)
-obj.save_tasks(tasks)
+
 
 
 
