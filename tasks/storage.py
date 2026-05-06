@@ -38,13 +38,19 @@ class TaskManager:
     def mark_as_completed(self, tasks, index):
         tasks[index - 1]["completed"] = True
 
+    def update_tasks(self, tasks, index, title, due_date, description):
+        if 0 < index <= len(tasks):
+            task = tasks[index - 1]
+            task["title"] = title
+            task["due_date"] = due_date
+            task["description"] = description
+
 
 obj = TaskManager()
 obj.load_tasks()
 tasks = []
 obj.add_task(tasks, "hello", "a greeting", "1990")
 obj.mark_as_completed(tasks, 1)
-
 obj.save_tasks(tasks)
 
 
