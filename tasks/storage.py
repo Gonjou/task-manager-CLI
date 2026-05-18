@@ -38,21 +38,80 @@ class TaskManager:
     
 
     def delete_task(self, tasks, index):
-        tasks.pop(index - 1)
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError("Task index must be a number.")
+        
+        if index < 1:
+            raise ValueError("Index must be greater than 0.")
+        
+        try:
+            tasks.pop(index - 1)
+        except IndexError:
+            raise IndexError("This task does not exist.")
+        
 
     def search_task(self, tasks, index):
-        found_task = tasks[index - 1]
-        return f"{found_task['title']} - {found_task['description']} - {found_task['due_date']} - {'Completed' if found_task['completed'] else 'Incomplete'}"
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError("Task index must be a number.")
+        
+        if index < 1:
+            raise ValueError("Index must be greater than 0.")
+        
+        try:
+            return tasks[index - 1]
+        except IndexError:
+            raise IndexError("This task does not exist.")
 
     def mark_as_completed(self, tasks, index):
-        tasks[index - 1]["completed"] = True
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError("Task index must be a number.")
+        
+        if index < 1:
+            raise ValueError("Index must be greater than 0.")
+        
+        try:
+            tasks[index - 1]["completed"] = True
+        except IndexError:
+            raise IndexError("This task does not exist.")
+
+    def mark_as_incomplete(self, tasks, index):
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError("Task index must be a number.")
+        
+        if index < 1:
+            raise ValueError("Index must be greater than 0.")
+        
+        try:
+            tasks[index - 1]["completed"] = False
+        except IndexError:
+            raise IndexError("This task does not exist.")
 
     def update_task(self, tasks, index, title, due_date, description):
-        if 0 < index <= len(tasks):
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError("Task index must be a number.")
+        
+        if index < 1:
+            raise ValueError("Index must be greater than 0")
+        
+        try:
             task = tasks[index - 1]
             task["title"] = title
             task["due_date"] = due_date
             task["description"] = description
+        except IndexError:
+            raise IndexError("This task does not exist.")
+
+
 
 
 
