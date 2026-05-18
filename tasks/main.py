@@ -44,7 +44,7 @@ def main():
                 title = input("Enter title: ")
                 description = input("Enter description: ")
                 due_date = input("Enter due date: ")
-                manager.update_task(tasks, title, due_date, description)
+                manager.update_task(tasks, index, title, due_date, description)
             elif choice == "7":
                 sys.exit("\nProgram closed")
 
