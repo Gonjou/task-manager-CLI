@@ -46,10 +46,10 @@ class TaskManager:
         if index < 1:
             raise ValueError("Index must be greater than 0.")
         
-        try:
-            tasks.pop(index - 1)
-        except IndexError:
+        if index > len(tasks):
             raise IndexError("This task does not exist.")
+        
+        tasks.pop(index - 1)
         
 
     def search_task(self, tasks, index):

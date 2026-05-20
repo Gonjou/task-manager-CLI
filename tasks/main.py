@@ -32,26 +32,26 @@ def main():
                 print(f"\nTASKS\n")
                 print(tabulate(table, headers=["title", "due_date", "completion"], tablefmt="github"))
             elif choice == "3":
-                index = int(input("Insert index: "))
+                index = input("Insert index: ")
                 task = manager.search_task(tasks, index)
                 print(f"\nTitle: {task['title']}")
                 print(f"Description: {task['description']}")
                 print(f"Date: {task['due_date']}")
                 print(f"Completed: {task['completed']}\n")
             elif choice == "4":
-                index = int(input("Insert index of task to delete: "))
+                index = input("Insert index of task to delete: ")
                 manager.delete_task(tasks, index)
                 print(f"TASK {index} DELETED")
             elif choice == "5":
-                index = int(input("Insert index of completed task: "))
+                index = input("Insert index of completed task: ")
                 manager.mark_as_completed(tasks, index)
                 print(f"TASK {index} COMPLETED")
             elif choice == "6":
-                index = int(input("Insert index of incompleted task: "))
+                index = input("Insert index of incompleted task: ")
                 manager.mark_as_incomplete(tasks, index)
                 print(f"TASK {index} INCOMPLETE")
             elif choice == "7":
-                index = int(input("Insert index of task to update: "))
+                index = input("Insert index of task to update: ")
                 title = input("Enter title: ")
                 description = input("Enter description: ")
                 due_date = input("Enter due date: ")
