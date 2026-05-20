@@ -12,7 +12,7 @@ class TaskManager:
             with open(self.tasks_file, "r") as file:
                 tasks = json.load(file)
         
-        if not self.tasks_file:
+        if not tasks:
             return "No saved data found. Starting new file."
 
         return tasks
@@ -20,6 +20,20 @@ class TaskManager:
     def save_tasks(self, tasks):
         with open(self.tasks_file, "w") as file:
             json.dump(tasks, file, indent=2)
+
+    def _validate_index(self, index, tasks):
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError("Task index must be a number.")
+        
+        if index < 1:
+            raise ValueError("Index must be greater than 0.")
+        
+        if index > len(tasks):
+            raise IndexError("This task does not exist.")
+        
+        return index
 
     def add_task(self, tasks, title, description, due_date):
         task = {"title": title, "description": description, "due_date": due_date, "completed": False}
@@ -38,78 +52,38 @@ class TaskManager:
     
 
     def delete_task(self, tasks, index):
-        try:
-            index = int(index)
-        except ValueError:
-            raise ValueError("Task index must be a number.")
-        
-        if index < 1:
-            raise ValueError("Index must be greater than 0.")
-        
-        if index > len(tasks):
-            raise IndexError("This task does not exist.")
+        index = self._validate_index(index, tasks)
         
         tasks.pop(index - 1)
         
 
     def search_task(self, tasks, index):
-        try:
-            index = int(index)
-        except ValueError:
-            raise ValueError("Task index must be a number.")
-        
-        if index < 1:
-            raise ValueError("Index must be greater than 0.")
+        index = self._validate_index(index, tasks)
         
         try:
             return tasks[index - 1]
-        except IndexError:
-            raise IndexError("This task does not exist.")
+        except TypeError as e:
+            raise TypeError(e)
+ 
 
     def mark_as_completed(self, tasks, index):
-        try:
-            index = int(index)
-        except ValueError:
-            raise ValueError("Task index must be a number.")
+        index = self._validate_index(index, tasks)
         
-        if index < 1:
-            raise ValueError("Index must be greater than 0.")
-        
-        try:
-            tasks[index - 1]["completed"] = True
-        except IndexError:
-            raise IndexError("This task does not exist.")
+        tasks[index - 1]["completed"] = True
+
 
     def mark_as_incomplete(self, tasks, index):
-        try:
-            index = int(index)
-        except ValueError:
-            raise ValueError("Task index must be a number.")
+        index = self._validate_index(index, tasks)
         
-        if index < 1:
-            raise ValueError("Index must be greater than 0.")
-        
-        try:
-            tasks[index - 1]["completed"] = False
-        except IndexError:
-            raise IndexError("This task does not exist.")
+        tasks[index - 1]["completed"] = False
 
     def update_task(self, tasks, index, title, due_date, description):
-        try:
-            index = int(index)
-        except ValueError:
-            raise ValueError("Task index must be a number.")
+        index = self._validate_index(index, tasks)
         
-        if index < 1:
-            raise ValueError("Index must be greater than 0")
-        
-        try:
-            task = tasks[index - 1]
-            task["title"] = title
-            task["due_date"] = due_date
-            task["description"] = description
-        except IndexError:
-            raise IndexError("This task does not exist.")
+        task = tasks[index - 1]
+        task["title"] = title
+        task["due_date"] = due_date
+        task["description"] = description
 
 
 

@@ -54,7 +54,7 @@ def main():
                 index = input("Insert index of task to update: ")
                 title = input("Enter title: ")
                 description = input("Enter description: ")
-                due_date = input("Enter due date: ")
+                due_date = _validate_due_date(input("Enter due date: "))
                 manager.update_task(tasks, index, title, due_date, description)
                 print(f"TASK {index} UPDATED")
             elif choice == "8":
@@ -63,9 +63,11 @@ def main():
             manager.save_tasks(tasks)
 
         except ValueError as e:
-            sys.exit(f"\nError: {e}")
+            print(f"\nError: {e}")
         except IndexError as e:
-            sys.exit(f"\nError: {e}")
+            print(f"\nError: {e}")
+        except TypeError as e:
+            print(f"\nError: {e}")
 
 
 def _validate_due_date(due_date):
