@@ -13,7 +13,7 @@ class TaskManager:
                 tasks = json.load(file)
         
         if not tasks:
-            return "No saved data found. Starting new file."
+            return tasks
 
         return tasks
 
@@ -61,7 +61,7 @@ class TaskManager:
         index = self._validate_index(index, tasks)
         
         try:
-            return tasks[index - 1]
+            return tasks[index - 1] 
         except TypeError as e:
             raise TypeError(e)
  
