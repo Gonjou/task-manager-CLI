@@ -11,12 +11,13 @@ def main():
         print("\nTask Manager")
         print("1. Add task")
         print("2. List tasks")
-        print("3. Search task")
-        print("4. Delete task")
-        print("5. Mark as completed")
-        print("6. Mark as incompleted")
-        print("7. Update task")
-        print("8. Exit")
+        print("3. Sort tasks")
+        print("4. Search task")
+        print("5. Delete task")
+        print("6. Mark as completed")
+        print("7. Mark as incompleted")
+        print("8. Update task")
+        print("9. Exit")
 
         try:
             choice = input("Enter your choice: ")
@@ -32,32 +33,43 @@ def main():
                 print(f"\nTASKS\n")
                 print(tabulate(table, headers=["index", "title", "due_date", "completion"], tablefmt="github"))
             elif choice == "3":
+                print("SORTING OPTIONS")
+                print("1. By due date (earliest first)")
+                print("2. By due date (latest first)")
+                print("3. By title (A-Z)")
+                print("4. By completion (Incomplete first)")
+                print("5. Back to main menu")
+
+                choice = input("Choose sorting method: ")
+
+
+            elif choice == "4":
                 index = input("Insert index: ")
                 task = manager.search_task(tasks, index)
                 print(f"\nTitle: {task['title']}")
                 print(f"Description: {task['description']}")
                 print(f"Date: {task['due_date']}")
                 print(f"Completed: {task['completed']}\n")
-            elif choice == "4":
+            elif choice == "5":
                 index = input("Insert index of task to delete: ")
                 manager.delete_task(tasks, index)
                 print(f"TASK {index} DELETED")
-            elif choice == "5":
+            elif choice == "6":
                 index = input("Insert index of completed task: ")
                 manager.mark_as_completed(tasks, index)
                 print(f"TASK {index} COMPLETED")
-            elif choice == "6":
+            elif choice == "7":
                 index = input("Insert index of incompleted task: ")
                 manager.mark_as_incomplete(tasks, index)
                 print(f"TASK {index} INCOMPLETE")
-            elif choice == "7":
+            elif choice == "8":
                 index = input("Insert index of task to update: ")
                 title = input("Enter title: ")
                 description = input("Enter description: ")
                 due_date = _validate_due_date(input("Enter due date: "))
                 manager.update_task(tasks, index, title, due_date, description)
                 print(f"TASK {index} UPDATED")
-            elif choice == "8":
+            elif choice == "9":
                 sys.exit("\nPROGRAM CLOSED")
 
             manager.save_tasks(tasks)
@@ -68,6 +80,8 @@ def main():
             print(f"\nError: {e}")
         except TypeError as e:
             print(f"\nError: {e}")
+        except EOFError:
+            print("PROGRAM CLOSED")
 
 
 def _validate_due_date(due_date):

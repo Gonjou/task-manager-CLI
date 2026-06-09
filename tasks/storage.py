@@ -49,7 +49,19 @@ class TaskManager:
             ]
             for index, task in enumerate(tasks, start=1)
             ]
+
+    def sort_tasks(self, tasks, sort_by, reverse=False):
+
+        sort_keys = {
+            "title": lambda x: x["title"],
+            "due date": lambda x: x["due date"],
+            "completion": lambda x: x["completed"]
+            }
     
+        if sort_by not in sort_keys:
+            raise ValueError("Invalid sorting option")
+
+        return sorted(tasks, key=sort_keys[sort_by], reverse=reverse)
 
     def delete_task(self, tasks, index):
         index = self._validate_index(index, tasks)
