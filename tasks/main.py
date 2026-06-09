@@ -30,7 +30,7 @@ def main():
             elif choice == "2":
                 table = manager.list_tasks(tasks)
                 print(f"\nTASKS\n")
-                print(tabulate(table, headers=["title", "due_date", "completion"], tablefmt="github"))
+                print(tabulate(table, headers=["index", "title", "due_date", "completion"], tablefmt="github"))
             elif choice == "3":
                 index = input("Insert index: ")
                 task = manager.search_task(tasks, index)
