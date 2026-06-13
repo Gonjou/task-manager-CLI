@@ -36,7 +36,8 @@ class TaskManager:
         return index
 
     def add_task(self, tasks, title, description, due_date):
-        task = {"title": title, "description": description, "due_date": due_date, "completed": False}
+        task = {"title": title, "description": description, "due_date": due_date, "completed": False, "today": False,
+                "this_week": False}
         tasks.append(task)
 
     def list_tasks(self, tasks):
@@ -62,6 +63,23 @@ class TaskManager:
             raise ValueError("Invalid sorting option")
 
         return sorted(tasks, key=sort_keys[sort_by], reverse=reverse)
+
+    def assign_tasks(self, tasks, index, option):
+
+        index = self._validate_index(index, tasks)
+        task = tasks[index - 1]
+
+        if option == "1":
+            task["today"] = True
+        elif option == "2":
+            task["this_week"] = True
+        elif option == "3":
+            task["today"] = False
+        elif option == "4":
+            task["this_week"] = False
+        else:
+            raise ValueError("Invalid choice")
+
 
     def delete_task(self, tasks, index):
         index = self._validate_index(index, tasks)

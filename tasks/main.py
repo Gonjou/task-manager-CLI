@@ -16,8 +16,10 @@ def main():
         print("5. Delete task")
         print("6. Mark as completed")
         print("7. Mark as incompleted")
-        print("8. Update task")
-        print("9. Exit")
+        print("8. Assign task for today or this week")
+        print("9. Update task")
+        print("10. Exit")
+        print("ANSWER ONLY WITH NUMBERS (e.g: 1, 2, 10...)")
 
         try:
             choice = input("Enter your choice: ")
@@ -79,6 +81,30 @@ def main():
                 print(f"TASK {index} INCOMPLETE")
 
             elif choice == "8":
+                today = [dict_task for dict_task in tasks if dict_task.get("today") is True]
+                week = [dict_task for dict_task in tasks if dict_task.get("this_week") is True]
+
+                print("----TODAY----".center(80))
+                print(tabulate(today, headers="keys", tablefmt="github"))
+                print("\n")
+                print("----THIS WEEK----".center(80))
+                print(tabulate(week, headers="keys", tablefmt="github"))
+                print("\n")
+
+                print("1. Assign for today")
+                print("2. Assign for this week")
+                print("3. Unassign for today")
+                print("4. Unassign for this week")
+
+                assign_option = input("Choose an option: ")
+                assign_task = input("Enter task index: ")
+                
+                manager.assign_tasks(tasks, assign_task, assign_option)
+
+                print(f"{assign_task['title']} {'assigned' if assign_option in ['1', '2'] else 'unassigned'} for {'today' if assign_option in ['1', '3'] else 'this week'}")
+
+
+            elif choice == "9":
                 index = input("Insert index of task to update: ")
                 title = input("Enter title: ")
                 description = input("Enter description: ")
@@ -86,7 +112,7 @@ def main():
                 manager.update_task(tasks, index, title, due_date, description)
                 print(f"TASK {index} UPDATED")
 
-            elif choice == "9":
+            elif choice == "10":
                 sys.exit("\nPROGRAM CLOSED")
 
             manager.save_tasks(tasks)
