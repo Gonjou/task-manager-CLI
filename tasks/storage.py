@@ -54,7 +54,7 @@ class TaskManager:
 
         sort_keys = {
             "title": lambda x: x["title"],
-            "due date": lambda x: x["due date"],
+            "due date": lambda x: x["due_date"],
             "completion": lambda x: x["completed"]
             }
     
