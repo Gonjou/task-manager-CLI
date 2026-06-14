@@ -36,6 +36,11 @@ class TaskManager:
         
         return index
 
+    def _validate_title(self, title):
+        if not title.strip():
+            raise ValueError("Title cannot be empty")
+        return title
+
     def _validate_due_date(self, due_date):
         validation = re.search(r"^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])$", due_date)
 
@@ -45,6 +50,7 @@ class TaskManager:
         return due_date
     
     def add_task(self, tasks, title, description, due_date):
+        title = self._validate_title(title)
         due_date = self._validate_due_date(due_date)
 
         task = {"title": title, "description": description, "due_date": due_date, "completed": False, "today": False,
@@ -121,6 +127,7 @@ class TaskManager:
 
     def update_task(self, tasks, index, title, due_date, description):
         index = self._validate_index(index, tasks)
+        title = self._validate_title(title)
         due_date = self._validate_due_date(due_date)
         
         task = tasks[index - 1]
