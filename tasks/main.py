@@ -1,6 +1,5 @@
 from tasks.storage import TaskManager
 import sys
-import re
 from tabulate import tabulate
 
 def main():
@@ -27,7 +26,7 @@ def main():
             if choice == "1":
                 title = input("Enter title: ")
                 description = input("Enter description: ")
-                due_date = _validate_due_date(input("Enter due date: "))
+                due_date = input("Enter due date: ")
 
                 manager.add_task(tasks, title, description, due_date)
 
@@ -108,7 +107,7 @@ def main():
                 index = input("Insert index of task to update: ")
                 title = input("Enter title: ")
                 description = input("Enter description: ")
-                due_date = _validate_due_date(input("Enter due date: "))
+                due_date = input("Enter due date: ")
                 manager.update_task(tasks, index, title, due_date, description)
                 print(f"TASK {index} UPDATED")
 
@@ -125,23 +124,6 @@ def main():
             print(f"\nError: {e}")
         except EOFError:
             sys.exit("PROGRAM CLOSED")
-
-
-def _validate_due_date(due_date):
-    validation = re.search(r"^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])$", due_date)
-
-    if not validation:
-        raise ValueError("Invalid date format. Use YYYY-MM-DD. Example: 2026-04-12")
-    
-    return due_date
-
-
-
-            
-
-
-
-
 
 
 

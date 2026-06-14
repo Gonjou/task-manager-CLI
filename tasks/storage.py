@@ -1,5 +1,6 @@
 import os
 import json
+import re
 
 class TaskManager:
     def __init__(self, tasks_file="tasks.json"):
@@ -35,9 +36,20 @@ class TaskManager:
         
         return index
 
+    def _validate_due_date(self, due_date):
+        validation = re.search(r"^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])$", due_date)
+
+        if not validation:
+            raise ValueError("Invalid date format. Use YYYY-MM-DD. Example: 2026-04-12")
+    
+        return due_date
+    
     def add_task(self, tasks, title, description, due_date):
+        due_date = self._validate_due_date(due_date)
+
         task = {"title": title, "description": description, "due_date": due_date, "completed": False, "today": False,
                 "this_week": False}
+        
         tasks.append(task)
 
     def list_tasks(self, tasks):
@@ -109,16 +121,12 @@ class TaskManager:
 
     def update_task(self, tasks, index, title, due_date, description):
         index = self._validate_index(index, tasks)
+        due_date = self._validate_due_date(due_date)
         
         task = tasks[index - 1]
         task["title"] = title
         task["due_date"] = due_date
         task["description"] = description
-
-
-
-
-
 
 
 
