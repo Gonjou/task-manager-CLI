@@ -22,7 +22,7 @@ class TaskManager:
         with open(self.tasks_file, "w") as file:
             json.dump(tasks, file, indent=2)
 
-    def _validate_index(self, index, tasks):
+    def validate_index(self, index, tasks):
         try:
             index = int(index)
         except ValueError:
@@ -36,12 +36,12 @@ class TaskManager:
         
         return index
 
-    def _validate_title(self, title):
+    def validate_title(self, title):
         if not title.strip():
             raise ValueError("Title cannot be empty")
         return title
 
-    def _validate_due_date(self, due_date):
+    def validate_due_date(self, due_date):
         validation = re.search(r"^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])$", due_date)
 
         if not validation:
@@ -50,9 +50,6 @@ class TaskManager:
         return due_date
     
     def add_task(self, tasks, title, description, due_date):
-        title = self._validate_title(title)
-        due_date = self._validate_due_date(due_date)
-
         task = {"title": title, "description": description, "due_date": due_date, "completed": False, "today": False,
                 "this_week": False}
         
@@ -84,7 +81,7 @@ class TaskManager:
 
     def assign_tasks(self, tasks, index, option):
 
-        index = self._validate_index(index, tasks)
+        index = self.validate_index(index, tasks)
         task = tasks[index - 1]
 
         if option == "1":
@@ -100,13 +97,13 @@ class TaskManager:
 
 
     def delete_task(self, tasks, index):
-        index = self._validate_index(index, tasks)
+        index = self.validate_index(index, tasks)
         
         tasks.pop(index - 1)
         
 
     def search_task(self, tasks, index):
-        index = self._validate_index(index, tasks)
+        index = self.validate_index(index, tasks)
         
         try:
             return tasks[index - 1] 
@@ -115,21 +112,17 @@ class TaskManager:
  
 
     def mark_as_completed(self, tasks, index):
-        index = self._validate_index(index, tasks)
+        index = self.validate_index(index, tasks)
         
         tasks[index - 1]["completed"] = True
 
 
     def mark_as_incomplete(self, tasks, index):
-        index = self._validate_index(index, tasks)
+        index = self.validate_index(index, tasks)
         
         tasks[index - 1]["completed"] = False
 
-    def update_task(self, tasks, index, title, due_date, description):
-        index = self._validate_index(index, tasks)
-        title = self._validate_title(title)
-        due_date = self._validate_due_date(due_date)
-        
+    def update_task(self, tasks, index, title, due_date, description):    
         task = tasks[index - 1]
         task["title"] = title
         task["due_date"] = due_date

@@ -24,11 +24,12 @@ def main():
             choice = input("Enter your choice: ")
             
             if choice == "1":
-                title = input("Enter title: ")
+                title = get_valid_input("Enter title: ", manager.validate_title)
                 description = input("Enter description: ")
-                due_date = input("Enter due date: ")
+                due_date = get_valid_input("Enter due date: ", manager.validate_due_date)
 
                 manager.add_task(tasks, title, description, due_date)
+                print(f"TASK {title} ADDED")
 
             elif choice == "2":
                 table = manager.list_tasks(tasks)
@@ -104,10 +105,10 @@ def main():
 
 
             elif choice == "9":
-                index = input("Insert index of task to update: ")
-                title = input("Enter title: ")
+                index = get_valid_input("Insert index of task to update: ", manager.validate_index)
+                title = get_valid_input("Enter title: ", manager.validate_title)
                 description = input("Enter description: ")
-                due_date = input("Enter due date: ")
+                due_date = get_valid_input("Enter due date: ", manager.validate_due_date)
                 manager.update_task(tasks, index, title, due_date, description)
                 print(f"TASK {index} UPDATED")
 
@@ -124,6 +125,14 @@ def main():
             print(f"\nError: {e}")
         except EOFError:
             sys.exit("PROGRAM CLOSED")
+
+def get_valid_input(prompt, validator):
+    while True:
+        try:
+            value = input(prompt)
+            return validator(value)
+        except ValueError as e:
+            print(f"Error: {e}")
 
 
 
