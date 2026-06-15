@@ -83,7 +83,7 @@ class TaskManager:
 
         index = self.validate_index(index, tasks)
         task = tasks[index - 1]
-
+    
         if option == "1":
             task["today"] = True
         elif option == "2":
@@ -94,7 +94,6 @@ class TaskManager:
             task["this_week"] = False
         else:
             raise ValueError("Invalid choice")
-
 
     def delete_task(self, tasks, index):
         index = self.validate_index(index, tasks)

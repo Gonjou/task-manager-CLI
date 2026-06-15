@@ -20,6 +20,11 @@ def main():
         print("10. Exit")
         print("ANSWER ONLY WITH NUMBERS (e.g: 1, 2, 10...)")
 
+        table = manager.list_tasks(tasks)
+        print(f"\n----TASKS----\n")
+        print(tabulate(table, headers=["index", "title", "due_date", "completion"], tablefmt="github"))
+        print("\n")
+
         try:
             choice = input("Enter your choice: ")
             
@@ -29,11 +34,11 @@ def main():
                 due_date = get_valid_input("Enter due date: ", manager.validate_due_date)
 
                 manager.add_task(tasks, title, description, due_date)
-                print(f"TASK {title} ADDED")
+                print(f"\nTASK {title} ADDED")
 
             elif choice == "2":
                 table = manager.list_tasks(tasks)
-                print(f"\nTASKS\n")
+                print(f"\n----TASKS----\n")
                 print(tabulate(table, headers=["index", "title", "due_date", "completion"], tablefmt="github"))
 
             elif choice == "3":
@@ -68,17 +73,17 @@ def main():
             elif choice == "5":
                 index = input("Insert index of task to delete: ")
                 manager.delete_task(tasks, index)
-                print(f"TASK {index} DELETED")
+                print(f"\nTASK {index} DELETED")
 
             elif choice == "6":
                 index = input("Insert index of completed task: ")
                 manager.mark_as_completed(tasks, index)
-                print(f"TASK {index} COMPLETED")
+                print(f"\nTASK {index} COMPLETED")
 
             elif choice == "7":
                 index = input("Insert index of incompleted task: ")
                 manager.mark_as_incomplete(tasks, index)
-                print(f"TASK {index} INCOMPLETE")
+                print(f"\nTASK {index} INCOMPLETE")
 
             elif choice == "8":
                 today = [dict_task for dict_task in tasks if dict_task.get("today") is True]
@@ -132,7 +137,7 @@ def get_valid_input(prompt, validator):
             value = input(prompt)
             return validator(value)
         except ValueError as e:
-            print(f"Error: {e}")
+            print(f"\nError: {e}")
 
 
 
