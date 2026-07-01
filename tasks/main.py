@@ -64,8 +64,14 @@ def main():
                     sorted_tasks = manager.sort_tasks(tasks, "title")
                 elif choice == "4":
                     sorted_tasks = manager.sort_tasks(tasks, "completion")
+                elif choice == "5":
+                    sorted_tasks = None
+                    print("Going back to main menu...")
 
-                print(tabulate(sorted_tasks, headers="keys", tablefmt="github"))
+                try:
+                    print(tabulate(sorted_tasks, headers="keys", tablefmt="github"))
+                except UnboundLocalError:
+                    print("Invalid option.")
 
             elif choice == "4":
                 index = input("Insert index: ")
@@ -117,7 +123,7 @@ def main():
 
 
             elif choice == "9":
-                index = get_valid_input("Insert index of task to update: ", manager.validate_index)
+                index = get_valid_input("Insert index of task to update: ", lambda index: manager.validate_index(index, tasks))
                 title = get_valid_input("Enter title: ", manager.validate_title)
                 description = input("Enter description: ")
                 due_date = get_valid_input("Enter due date: ", manager.validate_due_date)
@@ -134,7 +140,7 @@ def main():
                     settings["display_tasks_at_launch"] = True
                 if user_choice == "no":
                     settings["display_tasks_at_launch"] = False
-                else:
+                if user_choice not in ["yes", "no"]:
                     raise ValueError("Invalid choice. Type [yes/no]")
 
             
