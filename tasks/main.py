@@ -54,7 +54,7 @@ def main():
                 print("4. By completion (Incomplete first)")
                 print("5. Back to main menu")
 
-                choice = input("Choose sorting method: ")
+                choice = get_valid_input("Choose sorting method: ", manager.validate_sort_option)
 
                 if choice == "1":
                     sorted_tasks = manager.sort_tasks(tasks, "due date")
@@ -68,10 +68,7 @@ def main():
                     sorted_tasks = None
                     print("Going back to main menu...")
 
-                try:
-                    print(tabulate(sorted_tasks, headers="keys", tablefmt="github"))
-                except UnboundLocalError:
-                    print("Invalid option.")
+                print(tabulate(sorted_tasks, headers="keys", tablefmt="github"))
 
             elif choice == "4":
                 index = input("Insert index: ")

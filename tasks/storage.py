@@ -75,19 +75,21 @@ class TaskManager:
             ]
             for index, task in enumerate(tasks, start=1)
             ]
-
-    def sort_tasks(self, tasks, sort_by, reverse=False):
+    def validate_sort_option(self, choice):
+        valid_choices = ["1", "2", "3", "4", "5"]
+        if choice not in valid_choices:
+            raise ValueError("Invalid sorting option.")
+        return choice
+    
+    def sort_tasks(self, tasks, choice, reverse=False):
 
         sort_keys = {
             "title": lambda x: x["title"],
             "due date": lambda x: x["due_date"],
             "completion": lambda x: x["completed"]
             }
-    
-        if sort_by not in sort_keys:
-            raise ValueError("Invalid sorting option")
 
-        return sorted(tasks, key=sort_keys[sort_by], reverse=reverse)
+        return sorted(tasks, key=sort_keys[choice], reverse=reverse)
 
     def assign_tasks(self, tasks, index, option):
 
