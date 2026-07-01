@@ -3,24 +3,34 @@ import json
 import re
 
 class TaskManager:
-    def __init__(self, tasks_file="tasks.json"):
+    def __init__(self, tasks_file="tasks.json", settings_file="settings.json"):
         self.tasks_file = tasks_file
-
+        self.settings_file = settings_file
+        
     def load_tasks(self):
         tasks = []
         
         if os.path.exists(self.tasks_file):
             with open(self.tasks_file, "r") as file:
                 tasks = json.load(file)
-        
-        if not tasks:
-            return tasks
 
         return tasks
 
     def save_tasks(self, tasks):
         with open(self.tasks_file, "w") as file:
             json.dump(tasks, file, indent=2)
+
+    def load_settings(self):
+        settings = {"display_tasks_at_launch": True}
+
+        if os.path.exists(self.settings_file):
+            with open(self.settings_file, "r") as file: 
+                settings = json.load(file) 
+        return settings
+    
+    def save_settings(self, settings):
+        with open(self.settings_file, "w") as file: 
+            json.dump(settings, file, indent=2)
 
     def validate_index(self, index, tasks):
         try:
@@ -81,7 +91,6 @@ class TaskManager:
 
     def assign_tasks(self, tasks, index, option):
 
-        index = self.validate_index(index, tasks)
         task = tasks[index - 1]
     
         if option == "1":

@@ -5,6 +5,7 @@ from tabulate import tabulate
 def main():
     manager = TaskManager()
     tasks = manager.load_tasks()
+    settings = manager.load_settings()
 
     while True:
         print("\nTask Manager")
@@ -18,12 +19,16 @@ def main():
         print("8. Assign task for today or this week")
         print("9. Update task")
         print("10. Exit")
+        print("11. Display tasks at launch")
         print("ANSWER ONLY WITH NUMBERS (e.g: 1, 2, 10...)")
 
         table = manager.list_tasks(tasks)
-        print(f"\n----TASKS----\n")
-        print(tabulate(table, headers=["index", "title", "due_date", "completion"], tablefmt="github"))
-        print("\n")
+
+        if settings.get("display_tasks_at_launch"):
+            print(f"\n----TASKS----\n")
+            print(tabulate(table, headers=["index", "title", "due_date", "completion"], tablefmt="github"))
+            print("\n")
+
 
         try:
             choice = input("Enter your choice: ")
@@ -102,11 +107,13 @@ def main():
                 print("4. Unassign for this week")
 
                 assign_option = input("Choose an option: ")
-                assign_task = input("Enter task index: ")
+                assign_task_index = get_valid_input("Enter task index: ", lambda index: manager.validate_index(index, tasks))
                 
-                manager.assign_tasks(tasks, assign_task, assign_option)
+                manager.assign_tasks(tasks, assign_task_index, assign_option)
 
-                print(f"{assign_task['title']} {'assigned' if assign_option in ['1', '2'] else 'unassigned'} for {'today' if assign_option in ['1', '3'] else 'this week'}")
+                assign_task = manager.search_task(tasks, assign_task_index)
+
+                print(f"\n{assign_task['title']} {'assigned' if assign_option in ['1', '2'] else 'unassigned'} for {'today' if assign_option in ['1', '3'] else 'this week'}")
 
 
             elif choice == "9":
@@ -120,7 +127,20 @@ def main():
             elif choice == "10":
                 sys.exit("\nPROGRAM CLOSED")
 
+            elif choice == "11":
+                user_choice = input("Display tasks at launch? [yes/no]: ").strip().lower()
+
+                if user_choice == "yes":
+                    settings["display_tasks_at_launch"] = True
+                if user_choice == "no":
+                    settings["display_tasks_at_launch"] = False
+                else:
+                    raise ValueError("Invalid choice. Type [yes/no]")
+
+            
             manager.save_tasks(tasks)
+            manager.save_settings(settings)
+
 
         except ValueError as e:
             print(f"\nError: {e}")
