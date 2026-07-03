@@ -49,7 +49,7 @@ class TaskManager:
     def validate_title(self, title):
         if not title.strip():
             raise ValueError("Title cannot be empty")
-        return title
+        return title.strip()
 
     def validate_due_date(self, due_date):
         validation = re.search(r"^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])$", due_date)

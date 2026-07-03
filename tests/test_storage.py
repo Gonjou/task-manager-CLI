@@ -58,3 +58,66 @@ def test_load_tasks_reads_existing_json_file(tmp_path):
 
     assert manager.load_tasks() == [{"title": "Example task"}]
 
+
+def test_load_settings_reads_existing_json_file(tmp_path):
+    settings_file = tmp_path / "settings.json"
+    settings_file.write_text(json.dumps({"display_tasks_at_launch": False}))
+    manager = TaskManager(settings_file=settings_file)
+
+    assert manager.load_settings() == {"display_tasks_at_launch": False}
+
+
+@pytest.mark.parametrize(
+        "index, error_type, message",
+        [
+            ("abc", ValueError, "Task index must be a number."),
+            ("0", ValueError, "Index must be greater than 0."),
+            ("4", IndexError, "This task does not exist."),
+        ]
+        )
+
+def test_validate_index_rejects_invalid_values(manager, sample_tasks, index, error_type, message):
+    with pytest.raises(error_type, match=message):
+        manager.validate_index(index, sample_tasks)
+
+
+@pytest.mark.parametrize(
+    "index, expected",
+    [
+        ("1", 1),
+        ("2", 2),
+    ]
+)
+
+def test_validate_index_accepts_existing_values(manager, sample_tasks, index, expected):
+    assert manager.validate_index(index, sample_tasks) == expected
+
+
+@pytest.mark.parametrize(
+    "title, expected",
+    [
+        ("Sweep floor", "Sweep floor"),
+        ("   do homework   ", "do homework"),
+    ]
+)
+
+def test_validate_title_accepts_valid_title(manager, title, expected):
+    assert manager.validate_title(title) == expected
+
+
+def test_validate_title_rejects_empty_title(manager):
+    with pytest.raises(ValueError, match="Title cannot be empty"):
+        manager.validate_title("   ")
+
+
+@pytest.mark.parametrize(
+        "due_date", ["3rd of July 2026", "2026-13-07", "13-02-2026"]
+)
+
+def test_validate_due_date_rejects_invalid_date_formats(manager, due_date):
+    with pytest.raises(ValueError, match="Invalid date format"):
+        manager.validate_due_date(due_date)
+
+
+def test_validate_due_date_accepts_yyyymmdd_date(manager):
+    assert manager.validate_due_date("2026-07-03") == "2026-07-03"
