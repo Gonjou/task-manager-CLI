@@ -121,3 +121,54 @@ def test_validate_due_date_rejects_invalid_date_formats(manager, due_date):
 
 def test_validate_due_date_accepts_yyyymmdd_date(manager):
     assert manager.validate_due_date("2026-07-03") == "2026-07-03"
+
+
+def test_add_task_adds_task_to_list(manager, sample_tasks):
+    manager.add_task(sample_tasks, "study science", "", "2026-07-04")
+    manager.save_tasks(sample_tasks)
+
+    assert manager.load_tasks() == sample_tasks
+
+
+def test_list_tasks_returns_display_rows(manager, sample_tasks):
+    assert manager.list_tasks(sample_tasks) == [
+        [1, "sweep floor", "2000-08-06", "Incomplete"],
+        [2, "do homework", "2001-09-09", "Completed"]
+    ]
+
+def test_sort_option_rejects_invalid_choices(manager):
+    with pytest.raises(ValueError):
+        manager.validate_sort_option("6")
+
+
+@pytest.mark.parametrize("choice", ["1", "2", "3", "4", "5"])
+def test_sort_option_accepts_valid_choices(manager, choice):
+    assert manager.validate_sort_option(choice) == choice
+
+
+def test_sort_tasks_sort_by_title(manager, sample_tasks):
+    sorted_tasks = manager.sort_tasks(sample_tasks, "title")
+
+    assert sorted_tasks[0] == {
+        "title": "do homework",
+        "description": "math and sciences",
+        "due_date": "2001-09-09",
+        "completed": True,
+        "today": False,
+        "this_week": True
+      }
+
+def test_sort_tasks_sort_by_due_date(manager, sample_tasks):
+    sorted_tasks = manager.sort_tasks(sample_tasks, "due_date")
+
+    assert sorted_tasks[0] == {
+        "title": "sweep floor",
+        "description": "room",
+        "due_date": "2000-08-06",
+        "completed": False,
+        "today": True,
+        "this_week": False
+      }
+
+
+
