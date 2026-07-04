@@ -158,8 +158,8 @@ def test_sort_tasks_sort_by_title(manager, sample_tasks):
         "this_week": True
       }
 
-def test_sort_tasks_sort_by_due_date(manager, sample_tasks):
-    sorted_tasks = manager.sort_tasks(sample_tasks, "due_date")
+def test_sort_tasks_by_due_date(manager, sample_tasks):
+    sorted_tasks = manager.sort_tasks(sample_tasks, "due date")
 
     assert sorted_tasks[0] == {
         "title": "sweep floor",
@@ -171,4 +171,26 @@ def test_sort_tasks_sort_by_due_date(manager, sample_tasks):
       }
 
 
+def test_sort_tasks_by_due_date_reversed(manager, sample_tasks):
+    sorted_tasks = manager.sort_tasks(sample_tasks, "due date", reverse=True)
 
+    assert sorted_tasks[0] == {
+        "title": "do homework",
+        "description": "math and sciences",
+        "due_date": "2001-09-09",
+        "completed": True,
+        "today": False,
+        "this_week": True
+      }
+
+def test_sort_tasks_by_completion(manager, sample_tasks):
+    sorted_tasks = manager.sort_tasks(sample_tasks, "completion")
+
+    assert sorted_tasks[0] == {
+        "title": "sweep floor",
+        "description": "room",
+        "due_date": "2000-08-06",
+        "completed": False,
+        "today": True,
+        "this_week": False
+      }
