@@ -93,6 +93,7 @@ class TaskManager:
 
     def assign_tasks(self, tasks, index, option):
 
+        index = self.validate_index(index, tasks)
         task = tasks[index - 1]
     
         if option == "1":

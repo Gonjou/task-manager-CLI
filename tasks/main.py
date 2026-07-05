@@ -110,7 +110,7 @@ def main():
                 print("4. Unassign for this week")
 
                 assign_option = input("Choose an option: ")
-                assign_task_index = get_valid_input("Enter task index: ", lambda index: manager.validate_index(index, tasks))
+                assign_task_index = input("Enter task index: ")
                 
                 manager.assign_tasks(tasks, assign_task_index, assign_option)
 
