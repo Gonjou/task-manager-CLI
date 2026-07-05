@@ -194,3 +194,33 @@ def test_sort_tasks_by_completion(manager, sample_tasks):
         "today": True,
         "this_week": False
       }
+
+def test_assign_tasks_for_today(manager, sample_tasks):
+    manager.assign_tasks(sample_tasks, "2", "1")
+    manager.save_tasks(sample_tasks)
+
+    assert [task["today"] for task in sample_tasks] == [True, True]
+
+def test_assign_tasks_for_this_week(manager, sample_tasks):
+    manager.assign_tasks(sample_tasks, "1", "2")
+    manager.save_tasks(sample_tasks)
+
+    assert [task["this_week"] for task in sample_tasks] == [True, True]
+
+def test_unassign_tasks_for_today(manager, sample_tasks):
+    manager.assign_tasks(sample_tasks, "1", "3")
+    manager.save_tasks(sample_tasks)
+
+    assert [task["today"] for task in sample_tasks] == [False, False]
+
+def test_unassign_tasks_for_this_week(manager, sample_tasks):
+    manager.assign_tasks(sample_tasks, "2", "4")
+    manager.save_tasks(sample_tasks)
+
+    assert [task["this_week"] for task in sample_tasks] == [False, False]
+
+def test_delete_task(manager, sample_tasks):
+    manager.delete_task(sample_tasks, "2")
+    manager.save_tasks(sample_tasks)
+
+    assert len(sample_tasks) == 1
