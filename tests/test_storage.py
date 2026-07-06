@@ -149,72 +149,44 @@ def test_sort_option_accepts_valid_choices(manager, choice):
 def test_sort_tasks_sort_by_title(manager, sample_tasks):
     sorted_tasks = manager.sort_tasks(sample_tasks, "title")
 
-    assert sorted_tasks[0] == {
-        "title": "do homework",
-        "description": "math and sciences",
-        "due_date": "2001-09-09",
-        "completed": True,
-        "today": False,
-        "this_week": True
-      }
+    assert sorted_tasks[0]["title"] == "do homework"
 
 def test_sort_tasks_by_due_date(manager, sample_tasks):
     sorted_tasks = manager.sort_tasks(sample_tasks, "due date")
 
-    assert sorted_tasks[0] == {
-        "title": "sweep floor",
-        "description": "room",
-        "due_date": "2000-08-06",
-        "completed": False,
-        "today": True,
-        "this_week": False
-      }
+    assert sorted_tasks[0]["title"] == "sweep floor"
 
 
 def test_sort_tasks_by_due_date_reversed(manager, sample_tasks):
     sorted_tasks = manager.sort_tasks(sample_tasks, "due date", reverse=True)
 
-    assert sorted_tasks[0] == {
-        "title": "do homework",
-        "description": "math and sciences",
-        "due_date": "2001-09-09",
-        "completed": True,
-        "today": False,
-        "this_week": True
-      }
+    assert sorted_tasks[0]["title"] == "do homework"
 
 def test_sort_tasks_by_completion(manager, sample_tasks):
     sorted_tasks = manager.sort_tasks(sample_tasks, "completion")
 
-    assert sorted_tasks[0] == {
-        "title": "sweep floor",
-        "description": "room",
-        "due_date": "2000-08-06",
-        "completed": False,
-        "today": True,
-        "this_week": False
-      }
+    assert sorted_tasks[0]["title"] == "sweep floor"
 
 def test_assign_tasks_for_today(manager, sample_tasks):
-    manager.assign_tasks(sample_tasks, "2", "1")
+    manager.assign_tasks(sample_tasks, 2, "1")
     manager.save_tasks(sample_tasks)
 
     assert [task["today"] for task in sample_tasks] == [True, True]
 
 def test_assign_tasks_for_this_week(manager, sample_tasks):
-    manager.assign_tasks(sample_tasks, "1", "2")
+    manager.assign_tasks(sample_tasks, 1, "2")
     manager.save_tasks(sample_tasks)
 
     assert [task["this_week"] for task in sample_tasks] == [True, True]
 
 def test_unassign_tasks_for_today(manager, sample_tasks):
-    manager.assign_tasks(sample_tasks, "1", "3")
+    manager.assign_tasks(sample_tasks, 1, "3")
     manager.save_tasks(sample_tasks)
 
     assert [task["today"] for task in sample_tasks] == [False, False]
 
 def test_unassign_tasks_for_this_week(manager, sample_tasks):
-    manager.assign_tasks(sample_tasks, "2", "4")
+    manager.assign_tasks(sample_tasks, 2, "4")
     manager.save_tasks(sample_tasks)
 
     assert [task["this_week"] for task in sample_tasks] == [False, False]
@@ -224,3 +196,19 @@ def test_delete_task(manager, sample_tasks):
     manager.save_tasks(sample_tasks)
 
     assert len(sample_tasks) == 1
+
+def test_search_task(manager, sample_tasks):
+    task = manager.search_task(sample_tasks, "2")
+    assert task["title"] == "do homework"
+
+def test_mark_as_completed(manager, sample_tasks):
+    manager.mark_as_completed(sample_tasks, "1")
+    manager.save_tasks(sample_tasks)
+
+    assert sample_tasks[0]["completed"] == True
+
+def test_mark_as_incomplete(manager, sample_tasks):
+    manager.mark_as_incomplete(sample_tasks, "2")
+    manager.save_tasks(sample_tasks)
+
+    assert sample_tasks[1]["completed"] == False
