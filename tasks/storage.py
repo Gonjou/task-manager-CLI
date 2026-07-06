@@ -91,9 +91,13 @@ class TaskManager:
 
         return sorted(tasks, key=sort_keys[choice], reverse=reverse)
 
+    def validate_assign_option(self, option):
+        if option not in ["1", "2", "3", "4"]:
+            raise ValueError("Invalid choice")
+        return option
+    
     def assign_tasks(self, tasks, index, option):
 
-        index = self.validate_index(index, tasks)
         task = tasks[index - 1]
     
         if option == "1":
@@ -104,8 +108,6 @@ class TaskManager:
             task["today"] = False
         elif option == "4":
             task["this_week"] = False
-        else:
-            raise ValueError("Invalid choice")
 
     def delete_task(self, tasks, index):
         index = self.validate_index(index, tasks)

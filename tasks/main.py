@@ -109,8 +109,8 @@ def main():
                 print("3. Unassign for today")
                 print("4. Unassign for this week")
 
-                assign_option = input("Choose an option: ")
-                assign_task_index = input("Enter task index: ")
+                assign_option = get_valid_input("Choose an option: ", manager.validate_assign_option)
+                assign_task_index = get_valid_input("Enter task index: ", lambda index: manager.validate_index(index, tasks))
                 
                 manager.assign_tasks(tasks, assign_task_index, assign_option)
 
@@ -143,7 +143,6 @@ def main():
             
             manager.save_tasks(tasks)
             manager.save_settings(settings)
-
 
         except ValueError as e:
             print(f"\nError: {e}")
