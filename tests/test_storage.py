@@ -212,3 +212,16 @@ def test_mark_as_incomplete(manager, sample_tasks):
     manager.save_tasks(sample_tasks)
 
     assert sample_tasks[1]["completed"] == False
+
+def test_update_task(manager, sample_tasks):
+    manager.update_task(sample_tasks, 2, "write grocery list", "2026-07-06", "ask mom what she needs")
+    manager.save_tasks(sample_tasks)
+
+    assert sample_tasks[1] == {
+        "title": "write grocery list",
+        "description": "ask mom what she needs",
+        "due_date": "2026-07-06",
+        "completed": True,
+        "today": False,
+        "this_week": True
+      }
