@@ -66,8 +66,8 @@ def main():
                 elif choice == "4":
                     sorted_tasks = manager.sort_tasks(tasks, "completion")
                 elif choice == "5":
-                    sorted_tasks = None
                     print("Going back to main menu...")
+                    continue
 
                 print(tabulate(sorted_tasks, headers="keys", tablefmt="github"))
 
