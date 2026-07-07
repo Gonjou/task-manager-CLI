@@ -168,10 +168,10 @@ def test_sort_tasks_by_completion(manager, sample_tasks):
     assert sorted_tasks[0]["title"] == "sweep floor"
 
 @pytest.mark.parametrize("option", ["1", "2", "3", "4"])
-def test_assign_option_only_accepts_valid_choices(manager, option):
+def test_validate_assign_option_only_accepts_valid_choices(manager, option):
     assert manager.validate_assign_option(option) == option
 
-def test_assign_option_rejects_invalid_value(manager):
+def test_validate_assign_option_rejects_invalid_value(manager):
     with pytest.raises(ValueError):
         manager.validate_assign_option("5")
 
