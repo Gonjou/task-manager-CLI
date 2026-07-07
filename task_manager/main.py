@@ -1,8 +1,9 @@
-from tasks.storage import TaskManager
+from task_manager.storage import TaskManager
 import sys
 from tabulate import tabulate
 
 def main():
+    """The main() function calls all of the storage.py functions and prints the output."""
     manager = TaskManager()
     tasks = manager.load_tasks()
     settings = manager.load_settings()
@@ -154,6 +155,16 @@ def main():
             sys.exit("PROGRAM CLOSED")
 
 def get_valid_input(prompt, validator):
+    """
+    Gets the user input and validates it.
+    
+    Args:
+    prompt (str): string that contains the user input. Example: "Enter title: Do homework"
+    validator: function that validates the user input. Example: manager.validate_title
+
+    Returns:
+    str, int: validated input
+    """
     while True:
         try:
             value = input(prompt)

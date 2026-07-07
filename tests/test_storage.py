@@ -1,6 +1,6 @@
 import pytest
 import json
-from tasks.storage import TaskManager
+from task_manager.storage import TaskManager
 
 @pytest.fixture
 def manager(tmp_path):

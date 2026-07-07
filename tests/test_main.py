@@ -1,6 +1,6 @@
 import builtins
 import pytest
-from tasks.main import get_valid_input
+from task_manager.main import get_valid_input
 
 def test_get_valid_input_returns_validated_value(monkeypatch):
     monkeypatch.setattr(builtins, "input", lambda prompt: "10")
